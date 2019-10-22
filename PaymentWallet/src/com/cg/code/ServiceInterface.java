@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public interface ServiceInterface {
 
-	Wallet createAccount(User user);
+	Wallet createAccount(User user) throws Exception;
 	Transaction topUp(int walletID, BigDecimal amount);
-	BigDecimal showBalance(int walletID);
+	Transaction showBalance(int walletID);
 	Transaction transfer(int senderWalletID,
 			int receiverWalletID,BigDecimal amount,String desc);
 }

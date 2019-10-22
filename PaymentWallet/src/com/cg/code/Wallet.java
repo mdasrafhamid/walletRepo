@@ -4,22 +4,39 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="wallet")
 public class Wallet {
-	private static int c=0;
 	
-	private int id;
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+	private int id = -1;
+	
 	private BigDecimal balance;
+	
+	@OneToMany(cascade = {CascadeType.ALL},orphanRemoval = true)
+	@JoinColumn(name = "wallet_id")
 	private Map<Integer,Transaction> transactionMap = new HashMap<Integer, Transaction>();
+	
+	@OneToOne(cascade = {CascadeType.ALL})
 	private User user;
 	
+	@Transient
+	private Transaction temp;
+	
 	public Wallet(User user,Transaction transaction) {
-		this.id = c++;
+
 		this.balance=new BigDecimal("0.00");
 		this.user=user;
-		this.transactionMap.put(transaction.getId(), transaction);
+		this.temp = transaction;
 		
 	}
-	
+
+	public Wallet() {
+		
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -44,10 +61,15 @@ public class Wallet {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	public Transaction getTransaction() {
+		return temp;
+	}
+	public void setTransaction(Transaction temp) {
+		this.temp = temp;
+	}
 	@Override
 	public String toString() {
-		return "Wallet [id=" + id + ", balance=" + balance + ", transactionMap=" + transactionMap + ", user=" + user
-				+ "]";
+		return "Wallet [id=" + id + ", balance=" + balance + ", transactionMap=" + transactionMap + ", user=" + user + "]";
 	}
 	
 	

@@ -1,20 +1,33 @@
 package com.cg.code;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="user")
 public class User {
-	private static int c=0;
 	
-	private int id;
+	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+	private int id = 0;
+	
+	@Column(name="first_name")
 	private String fname;
+	
+	@Column(name="last_name")
 	private String lname;
+	
 	private String email;
-	 
+	
 	public User(String fname, String lname, String email){
-		this.id = c++;
+
 		this.fname = fname;
 		this.lname = lname;
 		this.email = email;
 	}
 	
+	public User() {
+		
+	}
+
 	public int getId() {
 		return id;
 	}
